@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>灶腳手帖</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#F6F5F1;
+  --surface:#FFFFFF;
+  --surface-2:#EFEDE6;
+  --ink:#2B2622;
+  --ink-soft:#6E655B;
+  --line:#DDD8CC;
+  --accent:#A65E12;
+  --accent-soft:#F3E4CF;
+  --green:#3E7A45;
+  --green-soft:#E3EEE2;
+  --fire-hi:#C24A2E;   --fire-hi-bg:#F7E3DC;
+  --fire-mid:#B07C10;  --fire-mid-bg:#F5EAD0;
+  --fire-lo:#7C6F4E;   --fire-lo-bg:#ECE8DC;
+  --fire-off:#6E655B;  --fire-off-bg:#E8E5DE;
+  --done:#9C948A;
+  --shadow:0 1px 3px rgba(43,38,34,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#191613;
+    --surface:#221E1A;
+    --surface-2:#2B2620;
+    --ink:#EAE4DA;
+    --ink-soft:#A79C8E;
+    --line:#3A342C;
+    --accent:#D98A33;
+    --accent-soft:#3B2D1B;
+    --green:#7CB183;
+    --green-soft:#233527;
+    --fire-hi:#E07A5F;   --fire-hi-bg:#3C2620;
+    --fire-mid:#D9A93F;  --fire-mid-bg:#38301B;
+    --fire-lo:#B3A57E;   --fire-lo-bg:#302C22;
+    --fire-off:#A79C8E;  --fire-off-bg:#2C2822;
+    --done:#6E655B;
+    --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#191613;
+  --surface:#221E1A;
+  --surface-2:#2B2620;
+  --ink:#EAE4DA;
+  --ink-soft:#A79C8E;
+  --line:#3A342C;
+  --accent:#D98A33;
+  --accent-soft:#3B2D1B;
+  --green:#7CB183;
+  --green-soft:#233527;
+  --fire-hi:#E07A5F;   --fire-hi-bg:#3C2620;
+  --fire-mid:#D9A93F;  --fire-mid-bg:#38301B;
+  --fire-lo:#B3A57E;   --fire-lo-bg:#302C22;
+  --fire-off:#A79C8E;  --fire-off-bg:#2C2822;
+  --done:#6E655B;
+  --shadow:0 1px 3px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Noto Sans TC",-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+  font-size:17px;
+  line-height:1.7;
+  margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto;padding:24px 20px 80px}
+.kai{font-family:"LXGW WenKai TC","Noto Sans TC","PingFang TC",serif}
+
+/* ── header ── */
+header.top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+h1{font-size:2rem;margin:0;letter-spacing:.06em}
+.tagline{color:var(--ink-soft);font-size:.95rem}
+.searchrow{display:flex;gap:10px;margin:18px 0 12px}
+.search{
+  flex:1;
+  font:inherit;
+  color:var(--ink);
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 16px;
+}
+.search:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.search::placeholder{color:var(--ink-soft)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.chip{
+  font:inherit;font-size:.95rem;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--ink-soft);
+  border-radius:999px;
+  padding:5px 16px;
+  cursor:pointer;
+}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:500}
+.chip:focus-visible,.card:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ── recipe cards ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{
+  text-align:left;
+  font:inherit;color:var(--ink);
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:18px 20px 16px;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:8px;
+}
+.card:hover{border-color:var(--accent)}
+.card h2{font-size:1.5rem;margin:0;font-weight:400;letter-spacing:.04em}
+.card .meta{display:flex;gap:14px;color:var(--ink-soft);font-size:.9rem;font-variant-numeric:tabular-nums}
+.card .desc{color:var(--ink-soft);font-size:.92rem;line-height:1.6;margin:0}
+.empty{color:var(--ink-soft);padding:40px 0;text-align:center}
+
+/* ── detail ── */
+.backrow{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.backbtn,.wakebtn{
+  font:inherit;font-size:.95rem;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--ink);
+  border-radius:10px;
+  padding:7px 16px;
+  cursor:pointer;
+}
+.wakebtn{margin-left:auto;color:var(--ink-soft)}
+.wakebtn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:500}
+.detail h2{font-size:2.2rem;margin:4px 0 6px;font-weight:400;letter-spacing:.05em;text-wrap:balance}
+.detail .meta{display:flex;gap:20px;color:var(--ink-soft);flex-wrap:wrap;font-variant-numeric:tabular-nums;margin-bottom:6px}
+.detail .meta b{color:var(--ink);font-weight:500}
+.note{
+  background:var(--accent-soft);
+  color:var(--accent);
+  border-radius:10px;
+  padding:10px 16px;
+  font-size:.95rem;
+  margin:12px 0 0;
+}
+.cols{display:grid;grid-template-columns:300px 1fr;gap:28px;margin-top:26px;align-items:start}
+@media (max-width:720px){.cols{grid-template-columns:1fr}}
+
+h3.sec{
+  font-size:.85rem;font-weight:700;letter-spacing:.18em;
+  color:var(--ink-soft);text-transform:uppercase;
+  margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);
+}
+/* ingredients */
+.ing-group{margin-bottom:18px}
+.ing-group .glabel{font-size:.85rem;color:var(--accent);letter-spacing:.1em;margin-bottom:6px}
+ul.ings{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ul.ings li{border-bottom:1px dashed var(--line)}
+ul.ings label{
+  display:flex;align-items:baseline;gap:10px;
+  padding:8px 2px;cursor:pointer;
+}
+ul.ings input{width:18px;height:18px;accent-color:var(--accent);flex:none;transform:translateY(3px)}
+ul.ings .iname{flex:1}
+ul.ings .amt{color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+ul.ings input:checked ~ .iname,ul.ings input:checked ~ .amt{color:var(--done);text-decoration:line-through}
+
+/* steps */
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:step}
+ol.steps li{counter-increment:step}
+ol.steps button{
+  width:100%;text-align:left;font:inherit;color:var(--ink);
+  display:flex;gap:14px;align-items:flex-start;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px 16px;
+  cursor:pointer;
+  line-height:1.65;
+  font-size:1.06rem;
+}
+ol.steps button::before{
+  content:counter(step);
+  font-family:"LXGW WenKai TC",serif;
+  font-size:1.5rem;line-height:1.1;
+  color:var(--accent);
+  min-width:1.4em;text-align:center;
+  flex:none;
+}
+ol.steps button.done{color:var(--done);background:var(--surface-2);border-color:transparent}
+ol.steps button.done::before{color:var(--done)}
+ol.steps .sbody{flex:1;display:flex;flex-direction:column;gap:4px}
+.fire{
+  align-self:flex-start;
+  font-size:.78rem;letter-spacing:.08em;
+  border-radius:6px;padding:1px 8px;font-weight:500;
+}
+.fire.hi{color:var(--fire-hi);background:var(--fire-hi-bg)}
+.fire.mid{color:var(--fire-mid);background:var(--fire-mid-bg)}
+.fire.lo{color:var(--fire-lo);background:var(--fire-lo-bg)}
+.fire.off{color:var(--fire-off);background:var(--fire-off-bg)}
+ol.steps button.done .fire{color:var(--done);background:var(--surface-2)}
+
+.tips{margin-top:24px;background:var(--green-soft);border-radius:12px;padding:14px 18px}
+.tips .tlabel{color:var(--green);font-weight:700;font-size:.85rem;letter-spacing:.15em;margin-bottom:4px}
+.tips p{margin:0;color:var(--ink);font-size:.97rem}
+.tips p + p{margin-top:6px}
+
+footer{margin-top:48px;color:var(--ink-soft);font-size:.85rem;text-align:center}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:no-preference){
+  .card,.chip,ol.steps button{transition:border-color .15s,background .15s,color .15s}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div id="listview">
+    <header class="top">
+      <h1 class="kai">灶腳手帖</h1>
+      <span class="tagline">做菜時的快速參考 — 點進食譜，食材打勾備料、步驟點一下標記完成</span>
+    </header>
+    <div class="searchrow">
+      <input class="search" id="q" type="search" placeholder="搜尋菜名或食材，例如：雞、九層塔…" aria-label="搜尋食譜">
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="分類篩選"></div>
+    <div class="grid" id="grid"></div>
+    <p class="empty" id="empty" hidden>找不到符合的食譜，換個關鍵字試試。</p>
+  </div>
+
+  <div id="detailview" class="detail" hidden></div>
+
+  <footer>單位換算：1 大匙 = 15ml　1 小匙 = 5ml　1 米杯 = 180ml</footer>
+</div>
+
+<script>
+const RECIPES = [
+{
+  id:"tomato-egg", name:"番茄炒蛋", time:"15 分鐘", serves:"2–3 人", cats:["快炒","蛋料理","快速"],
+  desc:"牛番茄炒到出汁，滑蛋回鍋拌勻，配飯首選。",
+  ings:[["牛番茄","2 顆（切塊）"],["雞蛋","3 顆"],["蔥","1 支（切蔥花）"],["糖","1 小匙"],["鹽","1/2 小匙"],["番茄醬","1 大匙（可省）"],["水","2 大匙"],["油","3 大匙"]],
+  steps:[
+    ["mid","蛋加一小撮鹽打散備用。"],
+    ["hi","熱鍋下 2 大匙油，油熱後倒入蛋液，輕推至七分熟即起鍋。"],
+    ["mid","原鍋補 1 大匙油，下番茄塊翻炒約 3 分鐘至出汁變軟。"],
+    ["mid","加糖、番茄醬、2 大匙水，略煮 1 分鐘。"],
+    ["mid","蛋回鍋拌炒均勻，以鹽調味。"],
+    ["off","起鍋前撒上蔥花。"]
+  ],
+  tips:["蛋別炒全熟就起鍋，回鍋後才會滑嫩。","番茄先用刀在底部劃十字、燙 30 秒可輕鬆去皮，口感更細。"]
+},
+{
+  id:"three-cup-chicken", name:"三杯雞", time:"35 分鐘", serves:"3–4 人", cats:["快炒"],
+  desc:"麻油煸薑、醬油米酒冰糖各一杯，起鍋前拌入九層塔。",
+  ings:[["去骨雞腿","2 支（切塊）"],["老薑","8 片"],["蒜頭","8 瓣（整瓣）"],["辣椒","1 根（斜切）"],["九層塔","1 大把"],["黑麻油","3 大匙"],["醬油","3 大匙"],["米酒","3 大匙"],["冰糖","1 大匙"]],
+  steps:[
+    ["lo","冷鍋下黑麻油與薑片，小火慢煸至薑片邊緣捲曲。"],
+    ["mid","下蒜瓣、辣椒爆香。"],
+    ["hi","轉大火下雞塊，煎炒至表面上色。"],
+    ["hi","加醬油、米酒、冰糖，翻炒均勻。"],
+    ["lo","蓋鍋蓋，中小火燜 10–12 分鐘至醬汁收濃。"],
+    ["off","關火，拌入九層塔，蓋鍋悶 30 秒即完成。"]
+  ],
+  tips:["麻油用小火煸薑才不會苦；全程別加水，靠米酒的水分燜熟。","用砂鍋或鑄鐵鍋收汁，上桌還會滋滋作響。"]
+},
+{
+  id:"braised-pork", name:"家常滷肉", time:"90 分鐘", serves:"4–6 人", cats:["滷燉"],
+  desc:"炒糖上色、小火慢滷一小時，滷汁拌飯就是一餐。",
+  ings:[["五花肉","600 g（切塊）"],["蔥","2 支（切段）"],["薑","4 片"],["蒜頭","4 瓣"],["八角","2 粒"],["醬油","80 ml"],["米酒","60 ml"],["冰糖","1.5 大匙"],["水","約 500 ml"],["水煮蛋","4 顆（可加）"]],
+  steps:[
+    ["hi","五花肉冷水下鍋汆燙，水滾後撈出洗淨。"],
+    ["lo","鍋中下少許油與冰糖，小火炒至糖融化、呈琥珀色。"],
+    ["mid","下肉塊翻炒，讓每面均勻裹上糖色。"],
+    ["mid","加蔥段、薑片、蒜頭、八角炒香，嗆入醬油與米酒。"],
+    ["hi","加水淹過肉面，大火煮滾後撇去浮沫。"],
+    ["lo","轉小火加蓋，滷 60 分鐘。"],
+    ["lo","放入水煮蛋再滷 15 分鐘，開蓋稍微收汁即完成。"]
+  ],
+  tips:["炒糖到琥珀色就要下肉，再深會發苦。","隔夜再加熱一次更入味，冷藏可放 3 天。"]
+},
+{
+  id:"cabbage", name:"蒜炒高麗菜", time:"10 分鐘", serves:"2–3 人", cats:["快炒","蔬菜","快速"],
+  desc:"大火快炒、沿鍋邊嗆水，保住清甜脆度。",
+  ings:[["高麗菜","1/2 顆（手撕成片）"],["蒜頭","5 瓣（切片）"],["紅蘿蔔","少許（切絲）"],["鹽","1/2 小匙"],["水","2 大匙"],["油","1.5 大匙"]],
+  steps:[
+    ["off","高麗菜用手撕成適口大小，洗淨瀝乾。"],
+    ["hi","大火熱油，下蒜片爆香。"],
+    ["hi","下高麗菜與紅蘿蔔絲快炒 1 分鐘。"],
+    ["hi","2 大匙水沿鍋邊嗆入，快速翻炒至菜葉微軟。"],
+    ["off","加鹽拌勻即起鍋，保持脆度。"]
+  ],
+  tips:["用手撕比刀切更容易吸附醬汁、口感也好。","全程大火、動作快，起鍋前才加鹽，菜才不出水。"]
+},
+{
+  id:"radish-omelette", name:"菜脯蛋", time:"15 分鐘", serves:"2–3 人", cats:["蛋料理","快速"],
+  desc:"菜脯先炒香再拌蛋，油量放足才煎得出金黃厚蛋。",
+  ings:[["碎菜脯","60 g"],["雞蛋","4 顆"],["蔥","2 支（切蔥花）"],["糖","1/2 小匙"],["白胡椒","少許"],["油","3 大匙"]],
+  steps:[
+    ["off","菜脯泡水 5 分鐘去除多餘鹹味，擠乾水分。"],
+    ["lo","乾鍋小火把菜脯炒香，加糖拌勻後盛出放涼。"],
+    ["off","蛋打散，拌入菜脯、蔥花、白胡椒。"],
+    ["mid","熱鍋下 3 大匙油，油熱後倒入蛋液，轉動鍋子攤成圓形。"],
+    ["mid","底面金黃後借助盤子翻面，兩面煎至金黃即完成。"]
+  ],
+  tips:["菜脯本身夠鹹，蛋液不用再加鹽。","油放足、鍋要夠熱，邊緣才會起酥香的蛋酥。"]
+},
+{
+  id:"scallion-beef", name:"蔥爆牛肉", time:"20 分鐘", serves:"2–3 人", cats:["快炒","快速"],
+  desc:"牛肉抓醃後大火快炒，蔥綠最後十秒才下鍋。",
+  ings:[["牛梅花或牛柳","300 g（逆紋切片）"],["蔥","4 支（切段，蔥白蔥綠分開）"],["薑","少許（切絲）"],["糖","1/2 小匙"],["白胡椒","少許"],["油","2 大匙"]],
+  ingGroups:[["醃料",[["醬油","1 大匙"],["米酒","1 大匙"],["太白粉","1 小匙"]]],["鍋中調味",[["醬油","1 大匙"]]]],
+  steps:[
+    ["off","牛肉加醃料抓勻，靜置 10 分鐘。"],
+    ["hi","大火熱油，下牛肉快炒至七分熟，盛起備用。"],
+    ["hi","原鍋下蔥白、薑絲爆香。"],
+    ["hi","牛肉回鍋，加 1 大匙醬油、糖、白胡椒快速翻炒。"],
+    ["hi","下蔥綠，大火翻炒 10 秒立刻起鍋。"]
+  ],
+  tips:["牛肉逆紋切、加太白粉抓醃，是嫩的關鍵。","鍋要燒到冒煙再下肉，才有鑊氣、不出水。"]
+},
+{
+  id:"sesame-chicken-soup", name:"麻油雞湯", time:"50 分鐘", serves:"3–4 人", cats:["湯品"],
+  desc:"麻油煸薑、米酒燉雞，冬天暖身的經典湯品。",
+  ings:[["帶骨雞腿","600 g（切塊）"],["老薑","15 片"],["黑麻油","4 大匙"],["米酒","600 ml（全酒，或半酒半水）"],["枸杞","1 大匙"],["鹽","適量"],["麵線","1–2 束（可加）"]],
+  steps:[
+    ["lo","冷鍋下黑麻油與薑片，小火煸至薑片乾香捲曲。"],
+    ["mid","下雞塊，煎至表皮微焦上色。"],
+    ["hi","倒入米酒（及水），大火煮滾。"],
+    ["hi","滾後撇去浮沫。"],
+    ["lo","轉小火，加蓋燉 30–40 分鐘。"],
+    ["lo","加入枸杞煮 5 分鐘，最後以鹽調味。"]
+  ],
+  tips:["全酒版本多滾幾分鐘讓酒精揮發，湯頭只留酒香。","鹽一定最後放，先放肉質會變柴；配燙好的麵線就是麻油雞麵線。"]
+},
+{
+  id:"sweet-sour-ribs", name:"糖醋排骨", time:"40 分鐘", serves:"3–4 人", cats:["快炒"],
+  desc:"台式口訣「一酒二醬三糖四醋五水」，裹汁收亮撒芝麻。",
+  ings:[["豬小排","500 g（切段）"],["蒜頭","3 瓣（切末）"],["白芝麻","少許"],["油","適量（半煎炸用）"]],
+  ingGroups:[["醃料",[["醬油","1 大匙"],["米酒","1 大匙"],["太白粉","2 大匙"]]],["糖醋汁（口訣 1‧2‧3‧4‧5）",[["米酒","1 大匙"],["醬油","2 大匙"],["糖","3 大匙"],["烏醋或白醋","4 大匙"],["水","5 大匙"]]]],
+  steps:[
+    ["off","排骨加醃料抓勻，醃 20 分鐘；糖醋汁調勻備用。"],
+    ["mid","鍋中下較多油，中火將排骨半煎炸至各面金黃，盛起。"],
+    ["mid","鍋中留少許油，下蒜末爆香。"],
+    ["mid","倒入糖醋汁，煮滾至略微濃稠。"],
+    ["hi","排骨回鍋翻炒裹汁，收至醬汁發亮。"],
+    ["off","起鍋撒白芝麻。"]
+  ],
+  tips:["「1 酒 2 醬 3 糖 4 醋 5 水」的比例記起來，糖醋魚、糖醋里肌都通用。","醋在最後收汁時保留酸香，別煮太久。"]
+}
+];
+
+const CATS = ["全部","快速","快炒","滷燉","湯品","蛋料理","蔬菜"];
+let activeCat = "全部";
+let query = "";
+
+const $grid = document.getElementById("grid");
+const $chips = document.getElementById("chips");
+const $empty = document.getElementById("empty");
+const $list = document.getElementById("listview");
+const $detail = document.getElementById("detailview");
+const $q = document.getElementById("q");
+
+function store(key, val){ try{ if(val===undefined) return JSON.parse(localStorage.getItem(key)||"null"); localStorage.setItem(key, JSON.stringify(val)); }catch(e){ return null; } }
+
+/* ── chips ── */
+CATS.forEach(c=>{
+  const b=document.createElement("button");
+  b.className="chip"; b.textContent=c;
+  b.setAttribute("aria-pressed", c===activeCat);
+  b.onclick=()=>{ activeCat=c; [...$chips.children].forEach(x=>x.setAttribute("aria-pressed", x.textContent===c)); renderList(); };
+  $chips.appendChild(b);
+});
+
+/* ── list ── */
+function matches(r){
+  if(activeCat!=="全部" && !r.cats.includes(activeCat)) return false;
+  if(!query) return true;
+  const hay=[r.name, r.desc, ...r.ings.map(i=>i[0]),
+    ...(r.ingGroups||[]).flatMap(g=>g[1].map(i=>i[0]))].join(" ");
+  return hay.includes(query);
+}
+function renderList(){
+  const rs=RECIPES.filter(matches);
+  $grid.innerHTML="";
+  rs.forEach(r=>{
+    const b=document.createElement("button");
+    b.className="card";
+    b.innerHTML=`<h2 class="kai">${r.name}</h2>
+      <div class="meta"><span>⏱ ${r.time}</span><span>${r.serves}</span></div>
+      <p class="desc">${r.desc}</p>`;
+    b.onclick=()=>{ location.hash="r/"+r.id; };
+    $grid.appendChild(b);
+  });
+  $empty.hidden = rs.length>0;
+}
+$q.addEventListener("input", e=>{ query=e.target.value.trim(); renderList(); });
+
+/* ── detail ── */
+const FIRE={hi:"大火",mid:"中火",lo:"小火",off:"備料 / 關火"};
+function ingRow(r, idx, name, amt, checked){
+  return `<li><label>
+    <input type="checkbox" data-idx="${idx}" ${checked?"checked":""}>
+    <span class="iname">${name}</span><span class="amt">${amt}</span>
+  </label></li>`;
+}
+function renderDetail(r){
+  const ingState = store("ing-"+r.id) || [];
+  const stepState = store("step-"+r.id) || [];
+  let i=0;
+  let ingHTML = `<div class="ing-group"><ul class="ings">` +
+    r.ings.map(([n,a])=>ingRow(r,i,n,a,ingState[i++])).join("") + `</ul></div>`;
+  (r.ingGroups||[]).forEach(([label,items])=>{
+    ingHTML += `<div class="ing-group"><div class="glabel kai">${label}</div><ul class="ings">` +
+      items.map(([n,a])=>ingRow(r,i,n,a,ingState[i++])).join("") + `</ul></div>`;
+  });
+  $detail.innerHTML=`
+    <div class="backrow">
+      <button class="backbtn" id="back">← 回列表</button>
+      <button class="wakebtn" id="wake" aria-pressed="false" hidden>☀ 螢幕常亮</button>
+    </div>
+    <h2 class="kai">${r.name}</h2>
+    <div class="meta"><span>時間 <b>${r.time}</b></span><span>份量 <b>${r.serves}</b></span></div>
+    <div class="cols">
+      <aside>
+        <h3 class="sec">食材 · 打勾備料</h3>
+        ${ingHTML}
+      </aside>
+      <main>
+        <h3 class="sec">步驟 · 點一下標記完成</h3>
+        <ol class="steps">
+          ${r.steps.map(([f,t],si)=>`<li><button data-si="${si}" class="${stepState[si]?"done":""}">
+            <span class="sbody"><span class="fire ${f}">${FIRE[f]}</span><span>${t}</span></span>
+          </button></li>`).join("")}
+        </ol>
+        <div class="tips">
+          <div class="tlabel">小訣竅</div>
+          ${r.tips.map(t=>`<p>${t}</p>`).join("")}
+        </div>
+      </main>
+    </div>`;
+  document.getElementById("back").onclick=()=>{ location.hash=""; };
+  $detail.querySelectorAll(".ings input").forEach(cb=>{
+    cb.addEventListener("change",()=>{
+      const s=store("ing-"+r.id)||[];
+      s[+cb.dataset.idx]=cb.checked;
+      store("ing-"+r.id,s);
+    });
+  });
+  $detail.querySelectorAll(".steps button").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      btn.classList.toggle("done");
+      const s=store("step-"+r.id)||[];
+      s[+btn.dataset.si]=btn.classList.contains("done");
+      store("step-"+r.id,s);
+    });
+  });
+  setupWakeLock();
+}
+
+/* ── wake lock（做菜時螢幕不熄屏）── */
+let wakeLock=null;
+function setupWakeLock(){
+  const btn=document.getElementById("wake");
+  if(!("wakeLock" in navigator)) return;
+  btn.hidden=false;
+  btn.onclick=async()=>{
+    try{
+      if(wakeLock){ await wakeLock.release(); wakeLock=null; }
+      else{
+        wakeLock=await navigator.wakeLock.request("screen");
+        wakeLock.addEventListener("release",()=>{ wakeLock=null; btn.setAttribute("aria-pressed","false"); });
+      }
+      btn.setAttribute("aria-pressed", wakeLock?"true":"false");
+    }catch(e){ btn.hidden=true; }
+  };
+}
+
+/* ── routing ── */
+function route(){
+  const m=location.hash.match(/^#r\/(.+)$/);
+  const r=m && RECIPES.find(x=>x.id===decodeURIComponent(m[1]));
+  if(r){ $list.hidden=true; $detail.hidden=false; renderDetail(r); window.scrollTo(0,0); }
+  else{ $detail.hidden=true; $list.hidden=false; renderList(); }
+}
+window.addEventListener("hashchange", route);
+route();
+</script>
+
+</body>
+</html>
